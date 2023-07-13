@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>glatos package</title>
+    <meta charset="utf-8" />
+    <script src="index_files/header-attrs-2.23/header-attrs.js"></script>
+    <link href="index_files/panelset-0.2.6/panelset.css" rel="stylesheet" />
+    <script src="index_files/panelset-0.2.6/panelset.js"></script>
+    <script src="index_files/xaringanExtra_fit-screen-0.2.6/fit-screen.js"></script>
+    <script src="index_files/kePrint-0.0.1/kePrint.js"></script>
+    <link href="index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+
+class: center, middle
+
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`
+
+&lt;img src="images/glatos_hex.png" width="200px"/&gt;  
+
+
+Development team:  
+
+**Christopher Holbrook**, U.S. Geological Survey  
+**Todd Hayden, Tom Binder**, Michigan State University  
+**Jon Pye and Ryan Grosse**, Ocean Tracking Network  
+
+**Iowa Telemetry Workshop | 2023-07-18**
+
+---
+
+layout: true
+background-image: url(images/GLATOS_logo.png)
+background-position: 5% 95%
+background-size: 10%
+---
+
+
+# Why &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`?
+
+.pull-left[
+## Raw Data
+
+1. Access  
+2. Wrangle  
+3. Check, clean  
+4. Summarize  
+5. Explore  
+6. Analyze  
+]
+
+.pull-right[
+## Products
+
+- Consistent (standardization)
+- Reproducible
+- Efficient
+- Accessible
+- Transparent  
+]
+&lt;br /&gt;
+
+.center[
+## Community-driven best practices
+
+]
+---
+
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+## Data loading and processing
+- Read tag-release, detections, receiver data (from GLATOS)
+- Read vender-supplied tag specifications and convert sensor values
+- Convert proprietary detection files (*.vrl) to common text format (*.csv)
+
+&lt;br /&gt;
+
+
+&lt;div class="flex"&gt;
+  &lt;img src="images/GLATOS_web.png" width="20%"/&gt;
+  &lt;img src="images/VUE1.png" width="20%" /&gt;
+  &lt;img src="images/Rsymbol.png" width="20%" /&gt;
+&lt;/div&gt;
+
+---
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+### Load detection data from GLATOS
+
+.panelset[
+.panel[.panel-name[Code]
+
+
+```r
+dtc_file &lt;- system.file("extdata", "walleye_detections.csv", package = "glatos")
+dtc &lt;- read_glatos_detections(dtc_file)
+```
+]
+.panel[.panel-name[Table]
+&lt;div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:1100px; "&gt;&lt;table class="table table-striped table-hover table-condensed" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; animal_id &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; detection_timestamp_utc &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_array &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; station_no &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; transmitter_codespace &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; transmitter_id &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sensor_value &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sensor_unit &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; deploy_lat &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; deploy_long &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; receiver_sn &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; tag_type &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; tag_model &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; tag_serial_number &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; common_name_e &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; capture_location &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; length &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; weight &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sex &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; release_group &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; release_location &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; release_latitude &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; release_longitude &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; utc_release_date_time &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_project_transmitter &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_project_receiver &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_tag_recovered &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_caught_date &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; station &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; min_lag &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:48:37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 258 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:52:55 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 137 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:55:12 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 90 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:56:42 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 90 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:58:37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+]
+---
+
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+## Filtering and summarizing
+- Identify possible false positive detections (time isolation metric, Pincock 2012)
+- Define detection events (simplification)
+- Summary tables (by animals or location)
+- Indicies of residence and occupancy at recevier locations
+
+---
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+### Filtering and summarizing- `detection events`
+
+.panelset[
+.panel[.panel-name[code]
+
+
+```r
+# load detection data
+dtc_file &lt;- system.file("extdata", "walleye_detections.csv", package = "glatos")
+dtc &lt;- read_glatos_detections(dtc_file)
+
+# extract events, condensed format
+events_condensed &lt;- detection_events(dtc)
+
+# extract events, long format
+events &lt;- detection_events(dtc, condense = FALSE)
+```
+]
+
+.panel[.panel-name[Table, condensed=TRUE]
+&lt;table class="table table-striped table-hover table-condensed" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; event &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; animal_id &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; location &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean_latitude &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean_longitude &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; first_detection &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; last_detection &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; num_detections &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; res_time_sec &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.38991 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99063 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:48:37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 02:26:07 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 21 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2250 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; SGR &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.61098 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.87383 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-30 04:46:40 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-30 09:50:21 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 93 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 18221 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; SBI &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 44.17795 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.54521 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-23 01:24:51 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-23 06:57:33 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 54 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 19962 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; SBO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 44.24064 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.43258 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-24 08:01:20 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-24 17:46:46 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 121 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 35126 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; OSC &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 44.45198 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.31861 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-25 04:52:21 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-25 05:15:33 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 11 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1392 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.panel[.panel-name[Table, condensed=FALSE]
+&lt;div style="border: 1px solid #ddd; padding: 5px; overflow-x: scroll; width:1100px; "&gt;&lt;table class="table table-striped table-hover table-condensed" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; animal_id &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; detection_timestamp_utc &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_array &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; station_no &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; transmitter_codespace &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; transmitter_id &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sensor_value &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sensor_unit &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; deploy_lat &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; deploy_long &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; receiver_sn &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; tag_type &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; tag_model &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; tag_serial_number &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; common_name_e &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; capture_location &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; length &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; weight &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; sex &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; release_group &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; release_location &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; release_latitude &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; release_longitude &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; utc_release_date_time &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_project_transmitter &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_project_receiver &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_tag_recovered &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; glatos_caught_date &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; station &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; min_lag &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; time_diff &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; arrive &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; depart &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; event &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:48:37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 258 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:52:55 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 137 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 258 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:55:12 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 137 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:56:42 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 90 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:58:37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; A69-9001 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 32054 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 43.39165 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.99264 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 113213 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; walleye &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee River &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0.565 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; F &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; Tittabawassee &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-20 20:00:00 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; HECWL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; TTB-002 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 115 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 0 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;&lt;/div&gt;
+]
+]
+---
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+### Filtering and summarizing- `summarize_detections`
+
+.panelset[
+.panel[.panel-name[code]
+
+
+```r
+dtc_file &lt;- system.file("extdata", "walleye_detections.csv", package = "glatos")
+dtc &lt;- read_glatos_detections(dtc_file)
+
+# by animal or by location
+ds_ani &lt;- summarize_detections(dtc, summ_type="animal")
+ds_loc &lt;- summarize_detections(dtc, summ_type="location")
+```
+]
+
+.panel[.panel-name[Animal]
+&lt;table class="table table-striped table-hover table-condensed" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; animal_id &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; num_locs &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; num_dets &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; first_det &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; last_det &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; locations &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3046 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-29 01:48:37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2013-05-09 15:10:33 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; FMP OSC PRS SBI SBO SGR SHR STG THB TTB &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 22 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2807 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-27 13:05:27 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2013-05-01 17:19:15 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; MAU RAR TSR &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; 23 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1327 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-27 17:12:31 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-31 02:11:16 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; DRF DRL DRU MAU SCL SCM &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+
+.panel[.panel-name[Location]
+&lt;table class="table table-striped table-hover table-condensed" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:center;"&gt; glatos_array &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; num_fish &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; num_dets &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; first_det &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; last_det &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean_lat &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; mean_lon &lt;/th&gt;
+   &lt;th style="text-align:center;"&gt; animals &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; DRF &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 62 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-26 15:12:15 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-26 19:00:20 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 42.24937 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.11824 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 23 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; DRL &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 186 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-25 10:10:54 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-25 22:48:07 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 42.09788 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.11929 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 23 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; DRU &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 169 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-27 07:33:37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-27 22:56:50 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 42.34058 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -82.97523 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 23 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; FMP &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 856 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-08-23 02:31:57 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-09-26 21:33:37 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 45.50111 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.90479 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; MAU &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1634 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-03-27 13:05:27 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-04-09 18:33:54 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 41.60799 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.57188 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 22 23 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; OSC &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 47 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-25 04:52:21 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2013-05-09 15:10:33 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 44.45161 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.30285 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; PRS &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 665 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-07-26 10:23:32 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-10-20 14:27:35 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 45.34239 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.44448 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; RAR &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1765 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2013-04-06 16:38:50 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2013-05-01 17:19:15 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 41.63705 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -82.97412 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 22 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; SBI &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 452 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-23 01:24:51 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2013-05-07 18:03:32 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 44.13348 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.43968 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:center;"&gt; SBO &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 429 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2012-05-24 08:01:20 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 2013-05-09 00:00:15 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 44.23100 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; -83.41075 &lt;/td&gt;
+   &lt;td style="text-align:center;"&gt; 153 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+]
+
+---
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+## Visualization and data exploration
+- Explore histories of individual animals (abacus plot)
+- Explore distributions of animal groups (bubble maps)
+- Interpolate movements of fish between receivers
+- Make animated videos of fish movements
+
+---
+
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+### Visualization and data exploration- `abacus_plot`
+
+.panelset[
+
+.panel[.panel-name[Code]
+
+```r
+# add locs where fish was not detected
+locs &lt;- c('DRL', 'FIC', 'DRF', 'GRW', 'GRE', 'BIN', 'DRU','LSC', 'THA', 'JHN','CHN', 'SCL', 'WLW',
+          'FWW', 'FWE', 'BLE', 'SCM', 'MGW', 'MGE','STW', 'STE', 'BLK', 'SCU', "MAU", "RAR", "TSR")
+
+# make abacus plot
+abacus_plot(events[events$animal_id == "22", ],
+            location_col='glatos_array',
+            locations = locs,
+            main="animal_id = 22",
+            type = "o", col='darkred', cex = 2)
+```
+
+
+
+]
+
+.panel[.panel-name[Plot]
+
+&lt;img src="index_files/figure-html/unnamed-chunk-1-1.png" width="300px" height="300px" style="display: block; margin: auto;" /&gt;
+
+]
+]
+
+---
+
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+### Visualization and data exploration- `detection_bubble_plot`
+
+.panelset[
+
+.panel[.panel-name[Code]
+
+```r
+# Add all receivers    
+# get path to example receiver file- included in `glatos`
+rec_file &lt;- system.file("extdata", "sample_receivers.csv", package = "glatos")
+rec &lt;- read_glatos_receivers(rec_file)
+
+# extract time of first and last detection
+first &lt;- min(dtc$detection_timestamp_utc) # time of first detection
+last &lt;- max(dtc$detection_timestamp_utc) # time of last detection     
+
+# Subset receiver deployments oustide the detection period that have been deployed but not yet recovered.
+plot_rec &lt;- rec[rec$deploy_date_time &lt; last &amp; rec$recover_date_time &gt; first &amp; !is.na(rec$recover_date_time),]
+
+# make plot
+detection_bubble_plot(dtc, receiver_locs = plot_rec, out_file = "images/bubble.png")
+```
+]
+
+.panel[.panel-name[Plot]
+&lt;img src="images/bubble.png" width="500px" height="294px" style="display: block; margin: auto;" /&gt;
+]
+]
+
+---
+
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+### Simulations functions for system design and evaluation
+- Estimate transmitter collision probabilities
+- Simulate animal movement, signal transmissions, and detection among synthetic receiver arrays (lines, grids, etc)
+
+- `crw_in_polygon` - simulate a random walk movement as equal-length steps with turning angles drwan from a normal distribution  
+
+- `transmit_along_path` - simulate tag signal transmission along random walk path (constant velocity, transmitter delay, and duration of signal  
+
+- `detect_transmissions` - simulate detection of transmitter signals based on detection range cureve, location of transmitter and location of receivers  
+
+---
+
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+### Simulations functions for system design and evaluation
+
+
+&lt;div class="flex"&gt;
+	&lt;img src="images/Krause_simulation_2018.png" width="50%" /&gt;   &lt;img src="images/sim_crw2.png" width="40%"/&gt;
+  &lt;/div&gt;
+
+---
+
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+## Data export and crosswalks   
+- Convert GLATOS formats to other telemetry system formats
+
+- `convert_glatos_to_att` - GLATOS to Animal Tracking Toolbox or VTrack  
+
+  - ATT/VTrack - github.com/rossdwyer/VTrack
+
+- `convert_otn_erddap_to_att` - OTN to Animal Tracking Toolbox or VTrack
+
+  - OTN - https://oceantrackingnetwork.org/
+
+
+---
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+## Animations  
+- `interpolate_path` - Interpolate new positions within a spatiotemporal data set (i.e., detections of tagged fish) at regularly-spaced time intervals
+
+- `make_frames` - Create a set of frames showing geographic locations or interpolated locations at discrete time intervals and stitch frames into an animated file
+
+.center[
+&lt;img src="images/animation_20200306.gif" width="35%"/&gt;
+]
+
+---
+# &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`: What does it do?
+
+## Glatos is NOT a sophisticated analysis software
+- Provides tools for loading and exploring data, visualizations  
+
+- No statistical models, only descriptive stats and visualizations  
+
+- Use other packages for stats and in-depth analyses 
+
+&lt;br/&gt;
+
+.center[
+## Analyses are project and objective specific
+]
+
+---
+
+# Installing &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`
+
+### https://github.com/ocean-tracking-network/glatos
+
+.center[
+&lt;img src="images/glatos_github.png" width="450px"/&gt;
+]
+
+### Installation (from R)
+
+
+```r
+install.packages("remotes")
+install.github("ocean-tracking-network/glatos", build_vignettes = TRUE)
+```
+---
+
+# Getting help with &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`
+
+
+### Vignettes
+
+- Data loading methods for the R package `glatos`  
+- Data requirements of the R package `glatos`  
+
+
+
+```r
+library(glatos)
+browseVignettes("glatos")
+```
+.center[
+ &lt;img src="images/vignettes.png" width="600px"/&gt;
+]
+
+
+
+---
+# Getting help with &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`
+
+### Supplemental Resources
+- "Assessing acoustic tag and receiver performance: An approach for visualizing and analyzing passive detection range studies in R"  
+- "Visualizing fish movements with animated videos in R: The ggplot2 and gganimate packages"  
+- "Receiver efficiency index"  
+- "Residence index"  
+- "An introduction to R for analyzing acoustic telemetry data (v. 2.0)"
+
+#### Download link for "An introduction to R....pdf")
+
+https://glatos.glos.us/portal/downloadarchive?enc=7kUI8rtWVnajt36f1Ildc6yOSZgWRk9xUCSe6xoCQTr3JiFvzqpkWqU76AWD%2BU1gaX7L4uZALZ1h%2BxTCes%2Bhk6MrG%2FvtKi505AhzCvtFMDrCSrrB%2FXknscTRmxUUap%2FsgFnmQg5EPd3QJAe7gM3QbjJWNm19r%2F7maVHRFhRa4Rtnb0l63SLey%2FG7m7HiSMDkyyY%2BP4yxJ4Eh2%2B2FsM5c51eXdRuytXNjILZxxHT8AfQ%3D
+
+---
+# Help us to improve &lt;span style="color:grey"&gt;[R package]&lt;/span&gt; `glatos`
+
+### File bug report at https://github.com/ocean-tracking-network/glatos/issues
+
+.pull-left[
+&lt;img src="images/Issues.png" width="600px"/&gt;
+]
+
+.pull-right[
+### Email  
+
+- Todd Hayden: thayden@usgs.gov  
+- Chris Holbrook: cholbrook@usgs.gov  
+- Tom Binder: trbinder@gmail.com  
+]
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "googlecode",
+"highlightLines": true,
+"highlighLanguage": "r"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+// add `data-at-shortcutkeys` attribute to <body> to resolve conflicts with JAWS
+// screen reader (see PR #262)
+(function(d) {
+  let res = {};
+  d.querySelectorAll('.remark-help-content table tr').forEach(tr => {
+    const t = tr.querySelector('td:nth-child(2)').innerText;
+    tr.querySelectorAll('td:first-child .key').forEach(key => {
+      const k = key.innerText;
+      if (/^[a-z]$/.test(k)) res[k] = t;  // must be a single letter (key)
+    });
+  });
+  d.body.setAttribute('data-at-shortcutkeys', JSON.stringify(res));
+})(document);
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
